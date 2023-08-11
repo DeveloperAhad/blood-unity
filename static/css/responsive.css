@@ -1,0 +1,475 @@
+/*
+====================================
+large Screen - Others
+====================================
+*/
+@media screen and (min-width: 1200px) and (max-width: 1399px) {
+
+
+    .dividas-area-inner {
+        padding-right: 0px;
+    }
+
+    .dividas-item h2 {
+        font-size: 58px;
+    }
+
+    /*=== management area start ===*/
+    .management-item-inner5 table {
+        width: 1050px;
+    }
+
+    /*=== trading page start ===*/
+    .meses-item2 ul li {
+        margin-right: 33px;
+    }
+
+    /*=== thank-you page start ===*/
+    .dividas-area-inner3 .dividas-item {
+        padding-right: 20px;
+    }
+
+    .dividas-area-inner3 .dividas-item h2 {
+        font-size: 49px;
+    }
+
+
+}
+
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+
+    .dividas-area-inner {
+        padding-right: 0px;
+    }
+
+    .dividas-item h2 {
+        font-size: 42px;
+    }
+
+    /*=== management area start ===*/
+    .management-item-inner5 table {
+        width: 1050px;
+    }
+
+    /*=== trading page start ===*/
+    .meses-item-inner {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .meses-item-inner h2 {
+        font-size: 15px;
+    }
+
+    .meses-item-inner h2 span {
+        font-size: 11px;
+    }
+
+    .meses-item-inner2 {
+        padding: 24px 10px;
+    }
+
+    .meses-item-inner2 ul li span:first-of-type {
+        width: 43%;
+    }
+
+    .meses-item-inner2 ul li span:last-of-type {
+        width: 57%;
+    }
+
+    /*=== thank-you page start ===*/
+    .dividas-area-inner3 .dividas-item {
+        padding-right: 20px;
+    }
+
+    .dividas-area-inner3 .dividas-item h2 {
+        font-size: 42px;
+    }
+
+    /*=== sispar page start ===*/
+    .sispar-item-inner {
+        padding: 32px 15px;
+    }
+
+
+}
+
+/*
+====================================
+Small Screen - Tablate
+====================================
+*/
+@media screen and (min-width: 768px) and (max-width: 991px) {
+
+
+    .dividas-area-inner {
+        padding-right: 0px;
+    }
+
+    .dividas-item {
+        width: 50%;
+    }
+
+    .dividas-item h2 {
+        font-size: 32px;
+    }
+
+    .dividas-item p {
+        font-size: 20px;
+    }
+
+    .dividas-item-inner2 div {
+        width: 100%;
+        padding-right: 0px;
+        margin-bottom: 20px;
+    }
+
+    .dividas-item-inner2 button {
+        width: 100%;
+    }
+
+    .dividas-item-inner3 {
+        margin-top: 30px;
+    }
+
+    .dividas-item2 {
+        width: 50%;
+    }
+
+    /*=== admin-01 page start ===*/
+    .content-area {
+        width: 100%;
+    }
+
+    .offcanvas-start {
+        width: 240px;
+    }
+
+    .menu-area {
+        width: 240px;
+    }
+
+    .menu-item {
+        padding-left: 0px;
+    }
+
+    .menu-item a img {
+        max-width: 150px;
+    }
+
+    .header-item2-inner2 {
+        margin-left: 25px;
+    }
+
+    /*=== management area start ===*/
+    .management-item-inner5 table {
+        width: 1050px;
+    }
+
+    /*=== admin-04 page start ===*/
+    .management-item-inner14 {
+        width: calc(100% - 64px);
+    }
+
+    /*=== trading page start ===*/
+    .meses-item2 ul li {
+        margin-right: 43px;
+    }
+
+    /*=== thank-you page start ===*/
+    .dividas-area-inner3 .dividas-item {
+        width: 55%;
+        padding-right: 20px;
+    }
+
+    .dividas-area-inner3 .dividas-item h2 {
+        font-size: 32px;
+    }
+
+    .dividas-area-inner3 .dividas-item h2 br {
+        display: none;
+    }
+
+    .dividas-area-inner3 .dividas-item p {
+        margin-bottom: 50px;
+    }
+
+    .dividas-area-inner3 .dividas-item2 {
+        width: 45%;
+        padding-left: 10px;
+    }
+
+    .dividas-item2-inner2 {
+        padding: 24px 15px;
+    }
+
+    .dividas-item2-inner3 {
+        padding: 0 15px 24px;
+    }
+
+    .dividas-item2-inner4 ul {
+        padding-top: 24px;
+    }
+
+    .dividas-item2-inner4 ul li {
+        display: flex;
+        padding: 0 15px 24px;
+    }
+
+    .dividas-item2-inner4 ul li:last-of-type {
+        padding: 24px 15px;
+    }
+
+
+    /*=== sispar page start ===*/
+    .sispar-item-inner {
+        padding: 32px 15px;
+    }
+
+    .sispar-item-inner2 {
+        width: 100%;
+    }
+
+    .sispar-item-inner3 {
+        padding-left: 0px;
+        border-left: none;
+    }
+
+    .sispar-item-inner2:first-child ul li:last-of-type {
+        padding-bottom: 9px;
+    }
+
+
+}
+
+/*
+====================================
+Small Screen - Mobile
+====================================
+*/
+@media screen and (max-width: 767px) {
+
+
+    .dividas-area-inner2 {
+        flex-wrap: wrap;
+    }
+
+    .header-item-inner img {
+        max-width: 150px;
+    }
+
+    .dividas-item {
+        width: 100%;
+        order: 2;
+    }
+
+    .dividas-item h2 {
+        font-size: 32px;
+    }
+
+    .dividas-item p {
+        font-size: 20px;
+    }
+
+    .dividas-item-inner2 div {
+        width: 100%;
+        padding-right: 0px;
+        margin-bottom: 20px;
+    }
+
+    .dividas-item-inner2 button {
+        width: 100%;
+    }
+
+    .dividas-item-inner3 {
+        margin-top: 30px;
+    }
+
+    .dividas-item2 {
+        width: 100%;
+        margin-top: 30px;
+        order: 1;
+    }
+
+    .dividas-item.thank-you {
+        order: 1;
+    }
+
+    /*=== admin-01 page start ===*/
+    .content-area {
+        width: 100%;
+    }
+
+    .offcanvas-start {
+        width: 240px;
+    }
+
+    .menu-area {
+        width: 240px;
+    }
+
+    .menu-item {
+        padding-left: 0px;
+    }
+
+    .menu-item a img {
+        max-width: 150px;
+    }
+
+    .header-item2 {
+        padding: 15px;
+    }
+
+    .header-item2-inner2 {
+        display: none;
+    }
+
+    /*=== management area start ===*/
+    .management-area {
+        padding: 32px 15px;
+    }
+
+    .management-item {
+        padding: 24px 15px;
+    }
+
+    .management-item-inner2 {
+        flex-wrap: wrap;
+    }
+
+    .management-item-inner3 {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .management-item-inner4 {
+        width: 100%;
+    }
+
+    .management-item-inner4 .dropdown-toggle {
+        width: 100%;
+    }
+
+    .management-item-inner5 table {
+        width: 1050px;
+    }
+
+    /*=== admin-04 page start ===*/
+    .management-area2 {
+        padding-bottom: 90px;
+    }
+
+    .management-item-inner10 {
+        width: 100%;
+        padding-bottom: 20px;
+    }
+
+    .management-item-inner11 {
+        width: 100%;
+    }
+
+    .management-item-inner14 {
+        padding: 15px;
+        width: calc(100% - 30px);
+        right: 15px;
+    }
+
+    /*=== thank-you page start ===*/
+    .dividas-area-inner3 .dividas-item {
+        width: 100%;
+    }
+
+    .dividas-area-inner3 .dividas-item h2 {
+        font-size: 32px;
+    }
+
+    .dividas-area-inner3 .dividas-item h2 br {
+        display: none;
+    }
+
+    .dividas-area-inner3 .dividas-item p {
+        margin-bottom: 30px;
+    }
+
+    .dividas-area-inner3 .dividas-item2 {
+        width: 100%;
+    }
+
+    .dividas-item2-inner {
+        margin: 0 auto;
+    }
+
+    .dividas-item2-inner2 {
+        padding: 24px 15px;
+    }
+
+    .dividas-item2-inner3 {
+        padding: 0 15px 24px;
+    }
+
+    .dividas-area-inner3 .dividas-item.thank-you-phone h3 {
+        display: block;
+    }
+
+    .dividas-area-inner3 .dividas-item h3 {
+        display: none;
+    }
+
+    .dividas-area-inner3 .dividas-item p {
+        margin-bottom: 0;
+    }
+
+    .dividas-item2-inner4 ul {
+        padding-top: 24px;
+    }
+
+    .dividas-item2-inner4 ul li {
+        display: flex;
+        padding: 0 15px 24px;
+    }
+
+    .dividas-item2-inner4 ul li:last-of-type {
+        padding: 24px 15px;
+    }
+
+    /*=== sispar page start ===*/
+    .sispar-area .management-item-inner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .sispar-item-inner {
+        padding: 32px 15px;
+    }
+
+    .sispar-item-inner2 {
+        width: 100%;
+    }
+
+    .sispar-item-inner3 {
+        padding-left: 0px;
+        border-left: none;
+    }
+
+    .sispar-item-inner4 table {
+        width: 550px;
+    }
+
+    .sispar-item-inner2:first-child ul li:last-of-type {
+        padding-bottom: 9px;
+    }
+
+
+}
+
+
+@media screen and (min-width: 576px) and (max-width: 767px) {
+
+
+    .meses-item-inner2 {
+        padding: 24px 20px;
+    }
+
+
+}

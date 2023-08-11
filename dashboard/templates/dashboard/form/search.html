@@ -1,0 +1,16 @@
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+<div>
+    <form>
+        <div class="row">
+            <div class="col-md-4">
+                {{ form.gender | as_crispy_field }}
+            </div>
+            <div class="col-md-4">
+                {{ form.blood_group | as_crispy_field }}
+            </div>
+        </div>
+        <button class="btn btn-primary">Search</button>
+    </form>
+</div>

@@ -1,0 +1,95 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="container d-flex justify-content-center align-items-center">
+        <div class="card" style="width: 600px">
+            <div class="card-body">
+
+
+                <ul class="nav nav-pills mb-3 justify-content-center" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
+                                data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
+                                aria-selected="true">General User Register
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
+                                type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Blood Bank
+                            Register
+                        </button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <form method="post" class="my-class">
+                            {% csrf_token %}
+                            <div class="row">
+                                <input type="text" name="form_name" value="general_user" hidden>
+                                <div class="col col-6">
+                                        {{ form.first_name | as_crispy_field }}
+                                    {{ form.first_name.errors | as_crispy_errors }}
+                                </div>
+                                <div class="col col-6">
+                                        {{ form.last_name | as_crispy_field }}
+                                        {{ form.last_name.errors | as_crispy_errors }}
+                                </div>
+
+                                <div class="col col-6">
+                                        {{ form.blood_group | as_crispy_field }}
+                                   {{ form.blood_group.errors | as_crispy_errors }}
+                                </div>
+                                 <div class="col col-6">
+                                        {{ form.phone_number | as_crispy_field }}
+                                   {{ form.phone_number.errors | as_crispy_errors }}
+                                </div>
+                                <div class="col col-6">
+                                        {{ form.birth_date | as_crispy_field }}
+                                   {{ form.birth_date.errors | as_crispy_errors }}
+                                </div>
+                               <div class="col col-6">
+                                        {{ form.gender | as_crispy_field }}
+                                   {{ form.gender.errors | as_crispy_errors }}
+                                </div>
+                                 <div class="col col-6">
+                                        {{ form.division | as_crispy_field }}
+                                    {{ form.division.errors | as_crispy_errors }}
+                                </div>
+                                <div class="col col-6">
+                                        {{ form.district | as_crispy_field }}
+                                    {{ form.district.errors | as_crispy_errors }}
+                                </div>
+                                <div class="col col-6">
+                                        {{ form.upazila | as_crispy_field }}
+                                    {{ form.upazila.errors | as_crispy_errors }}
+                                </div>
+                                 <div class="col col-6">
+                                        {{ form.union | as_crispy_field }}
+                                    {{ form.union.errors | as_crispy_errors }}
+                                </div>
+                                <div class="col col-6">
+                                        {{ form.password | as_crispy_field }}
+                                    {{ form.password.errors | as_crispy_errors }}
+                                </div>
+                                <div class="col col-6">
+                                        {{ form.confirm_password | as_crispy_field }}
+                                    {{ form.confirm_password.errors | as_crispy_errors }}
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-lg w-100 btn-primary">Register</button>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'assets/js/register.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base/base.html' %}
+{% block content %}
+    <div class="container">
+        <h1>Home</h1>
+        <p> Welcome to the home page!</p>
+        {% if is_authenticated %}
+            <p> You are logged in!</p>
+        {% else %}
+            <p> You are not logged in!</p>
+        {% endif %}
+    </div>
+{% endblock %}
