@@ -16,13 +16,12 @@ def index(request):
 
 
 def dashboard(request):
-
     context = {
         'user': request.user
     }
     return render(request, 'dashboard/dashboard.html', context)
 
-def search_donors(request):
 
+def search_donors(request):
     f = GeneralUserFilter(request.GET, queryset=GeneralUser.objects.all())
     return render(request, 'dashboard/search-donors.html', {'filter': f, 'form': SearchForm()})

@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     'dashboard',
     'locations',
     'general_users',
+    'chatbox'
 ]
 
 MIDDLEWARE = [

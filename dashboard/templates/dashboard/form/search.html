@@ -1,6 +1,8 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 
+
+{% load static %}
 <div>
     <form>
         <div class="row">
@@ -10,6 +12,19 @@
             <div class="col-md-4">
                 {{ form.blood_group | as_crispy_field }}
             </div>
+            <div class="col-md-4">
+                {{ form.division | as_crispy_field }}
+            </div>
+            <div class="col-md-4">
+                {{ form.district | as_crispy_field }}
+            </div>
+            <div class="col-md-4">
+                {{ form.upazila | as_crispy_field }}
+            </div>
+            <div class="col-md-4">
+                {{ form.union | as_crispy_field }}
+            </div>
+
         </div>
         <button class="btn btn-primary">Search</button>
     </form>

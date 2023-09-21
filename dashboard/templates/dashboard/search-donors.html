@@ -1,6 +1,6 @@
 {% extends 'base/base.html' %}
 
-
+{% load static %}
 {% block content %}
     <div class="container">
         <div class="row">
@@ -8,12 +8,38 @@
                 {% include 'dashboard/form/search.html' %}
                 <form method="get">
                     {{ filter.form.gender_id }}
-                    <input type="submit"/>
+
                 </form>
-                {% for obj in filter.qs %}
-                    {{ obj.gender }}<br/>
-                {% endfor %}
             </div>
         </div>
+        <div class="row mt-5">
+                {% for obj in filter.qs %}
+
+                    <div class="col-md-4">
+                     <div class="card">
+        <div class="card-header bg-danger text-white">
+            Blood Donor Information
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">{{ obj.user.first_name }} {{  obj.user.last_name }}</h5>
+            <p class="card-text">
+                <strong>Blood Type:</strong> {{ obj.blood_group }}
+                <br>
+                <strong>Age:</strong> {{ obj.get_age }}
+                <br>
+                <strong>Location:</strong> {{ obj.get_address }}
+            </p>
+            <a href="#" class="btn btn-primary">Contact Donor</a>
+        </div>
     </div>
+                    </div>
+
+                {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block script %}
+    <script src="{% static 'assets/js/register.js' %}"></script>
 {% endblock %}

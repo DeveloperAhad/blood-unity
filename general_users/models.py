@@ -1,7 +1,9 @@
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
+
 user = get_user_model()
+
 
 # Create your models here.
 
@@ -31,3 +33,12 @@ class GeneralUser(models.Model):
     union = models.ForeignKey('locations.Union', on_delete=models.SET_NULL, null=True)
     blood_group = models.CharField(max_length=3, choices=BloodGroup.choices, null=True)
     user = models.OneToOneField(user, on_delete=models.CASCADE)
+
+    @property
+    def get_age(self):
+        import datetime
+        return int((datetime.date.today() - self.birth_date).days / 365.25)
+
+    @property
+    def get_address(self):
+        return f"{self.union}, {self.upazila}, {self.district}, {self.division}"

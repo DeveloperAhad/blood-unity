@@ -25,6 +25,7 @@ urlpatterns = [
     path('auth/', include('authentication.urls')),
     path('dashboard/', include('dashboard.urls')),
     path('locations/', include('locations.urls')),
+    path('chats/', include('chatbox.urls')),
     path('', index, name='index')
 ]
 
