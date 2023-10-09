@@ -1,0 +1,20 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="profile-image">
+            {% if general_users.avatar %}
+                <img src="{{ general_users.avatar.url }}" alt="">
+            {% else %}
+                  <i class="fa-solid fa-user"></i>
+            {% endif %}
+        </div>
+
+        <div class="text-center">
+            <h1> {{ user.get_full_name }}</h1>
+            <h4>Blood Group: {{ general_users.blood_group }}</h4>
+            <h4>Age: {{ general_users.get_age }}</h4>
+            <a href="{% url 'create_chat_room' participant_id=general_users.user.id %}" class="btn btn-primary"><i class="fa-solid fa-comment"></i></a>
+        </div>
+    </div>
+{% endblock %}

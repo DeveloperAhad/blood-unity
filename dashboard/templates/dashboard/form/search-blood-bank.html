@@ -1,0 +1,24 @@
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+
+{% load static %}
+<div>
+    <form>
+        <div class="row">
+            <div class="col-md-3">
+                {{ form.division | as_crispy_field }}
+            </div>
+            <div class="col-md-3">
+                {{ form.district | as_crispy_field }}
+            </div>
+            <div class="col-md-3">
+                {{ form.upazila | as_crispy_field }}
+            </div>
+            <div class="col-md-3">
+                {{ form.union | as_crispy_field }}
+            </div>
+        </div>
+        <button class="btn btn-primary">Search</button>
+    </form>
+</div>

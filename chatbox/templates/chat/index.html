@@ -1,33 +1,19 @@
 {% extends 'base/base.html' %}
 {% block content %}
     <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">
-                        Contacts
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <!-- Replace these list items with actual contact information -->
-                        <li class="list-group-item">Contact 1</li>
-                        <li class="list-group-item">Contact 2</li>
-                        <li class="list-group-item">Contact 3</li>
-                        <!-- Add more contacts as needed -->
-                    </ul>
-                </div>
-            </div>
+        <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
                         Chat with Contact
                     </div>
-                    <div class="card-body" id="message-box">
+                    <div style="height: 450px; overflow-y: auto;" class="card-body" id="message-box">
                         <!-- Messages will be displayed here -->
                     </div>
                     <div class="card-footer">
                         <div class="input-group">
                             <input type="text" id="message-input" class="form-control"
-                                   placeholder="Type your message...">
+                                   placeholder="Type your message..."/>
                             <div class="input-group-append">
                                 <button id="send-button" class="btn btn-primary">Send</button>
                             </div>
@@ -38,62 +24,75 @@
         </div>
     </div>
 {% endblock %}
-
 {% block script %}
-<script>
-    // Function to create a WebSocket connection
-    function connectWebSocket(roomName) {
-        const socket = new WebSocket(`ws://localhost:8002/ws/chat/${roomName}/`);
+    <script>
+        // Function to create a WebSocket connection
+        function connectWebSocket(roomName) {
+            const yourId = "{{ request.user.id }}";
+            const messageBox = $("#message-box");
 
-        // Handle WebSocket events
-        socket.onopen = (event) => {
-            console.log("WebSocket connection opened:", event);
-        };
+            const socket = new WebSocket(`ws://localhost:8002/ws/chat/${roomName}/`);
 
-        socket.onmessage = (event) => {
-            const messageData = JSON.parse(event.data);
-            const messageBox = document.getElementById("message-box");
-            const message = messageData.message;
-            const sender = messageData.sender;
+            // Handle WebSocket events
+            socket.onopen = (event) => {
+                console.log("WebSocket connection opened:", event);
+            };
 
-            // Display the received message in the message box
-            messageBox.innerHTML += `<p><strong>${sender}:</strong> ${message}</p>`;
-        };
+            socket.onmessage = (event) => {
+                const messageData = JSON.parse(event.data);
+                const existingMessages = $("#message-" + messageData.message_id);
+                const message = messageData.message;
 
-        socket.onclose = (event) => {
-            console.log("WebSocket connection closed:", event);
-        };
+                if (!existingMessages.length) {
+                    console.log(messageData.sender_id, yourId);
 
-        // Function to send a message through the WebSocket
-        function sendMessage() {
-            const messageInput = document.getElementById("message-input");
-            const message = messageInput.value;
+                    if (messageData.sender_id == yourId) {
+                        messageBox.append(`<div class="won-message" id="message-${messageData.message_id}"><div>${message}</div></div>`);
+                    } else {
+                        messageBox.append(`<div class="message" id="message-${messageData.message_id}"><div>${message}</div></div>`);
+                    }
 
-            if (message) {
-                // Send the message to the WebSocket server
-                socket.send(JSON.stringify({ message: message }));
+                    messageBox.scrollTop(messageBox.prop("scrollHeight"));
+                }
+            };
 
-                // Display the sent message in the message box
-                const messageBox = document.getElementById("message-box");
-                messageBox.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
+            socket.onclose = (event) => {
+                console.log("WebSocket connection closed:", event);
+            };
 
-                // Clear the input field
-                messageInput.value = "";
+            // Function to send a message through the WebSocket
+            function sendMessage() {
+                const messageInput = $("#message-input");
+                const message = messageInput.val();
+
+                if (message) {
+                    // Send the message to the WebSocket server
+                    socket.send(JSON.stringify({message: message, message_type: "chat_message"}));
+                    // Clear the input field
+                    messageInput.val("");
+                }
             }
+
+            // Attach the sendMessage function to the send button
+            const sendButton = $("#send-button");
+            sendButton.on('click', sendMessage);
+
+            $("#message-input").on('keyup', function (event) {
+                if (event.keyCode === 13) {
+                    sendMessage();
+                }
+            });
+            $("#message-input").on('focus', function (event) {
+                socket.send(JSON.stringify({message: 'is_read', message_type: "read_messages"}));
+            });
         }
 
-        // Attach the sendMessage function to the send button
-        const sendButton = document.getElementById("send-button");
-        sendButton.addEventListener('click', sendMessage);
-    }
+        connectWebSocket("{{ chat_room.name }}");
+    </script>
+{% endblock %}
+In this code, we have replaced the vanilla JavaScript DOM manipulation with jQuery functions to achieve the same functionality. Make sure to include the jQuery library before this script for it to work correctly.
 
-    // Add event listeners to the contact list items
-    const contactItems = document.querySelectorAll('.list-group-item');
-    contactItems.forEach((contactItem) => {
-        contactItem.addEventListener('click', () => {
-            const roomName = contactItem.innerText;  // Use the contact's name as the room name
-            connectWebSocket(roomName);
-        });
-    });
-</script>
-{% endblock  %}
+
+
+
+

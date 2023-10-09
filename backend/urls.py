@@ -25,6 +25,8 @@ urlpatterns = [
     path('auth/', include('authentication.urls')),
     path('dashboard/', include('dashboard.urls')),
     path('locations/', include('locations.urls')),
+    path('users/', include('general_users.urls')),
+    path('blood_banks/', include('blood_banks.urls')),
     path('chats/', include('chatbox.urls')),
     path('', index, name='index')
 ]

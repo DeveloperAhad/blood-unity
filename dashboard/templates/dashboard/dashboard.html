@@ -2,8 +2,186 @@
 
 {% block content %}
     <div class="container">
-        <h1>Welcome to blood unity</h1>
-        <p><strong>Name:</strong> {{ user.get_full_name }}</p>
-        <p><strong>Blood Group:</strong> {{ user.generaluser.blood_group }}</p>
+
+        {% if  request.user.account_type == 'blood_bank' %}
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="user-dashboard-card" style="background: #b34444">
+                        <div>
+                            <h1>A+</h1>
+                            <h6>Available Bags:{{ blood_bank.blood_group_a_positive }}</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="user-dashboard-card" style="background: #b34444">
+                        <div>
+                            <h1>A-</h1>
+                            <h6>Available Bags:{{ blood_bank.blood_group_a_negative }}</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="user-dashboard-card" style="background: #b34444">
+                        <div>
+                            <h1>B+</h1>
+                            <h6>Available Bags:{{ blood_bank.blood_group_b_positive }}</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="user-dashboard-card" style="background: #b34444">
+                        <div>
+                            <h1>B-</h1>
+                            <h6>Available Bags:{{ blood_bank.blood_group_b_negative }}</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="user-dashboard-card" style="background: #b34444">
+                        <div>
+                            <h1>O+</h1>
+                            <h6>Available Bags:{{ blood_bank.blood_group_o_positive }}</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="user-dashboard-card" style="background: #b34444">
+                        <div>
+                            <h1>O-</h1>
+                            <h6>Available Bags:{{ blood_bank.blood_group_o_negative }}</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="user-dashboard-card" style="background: #b34444">
+                        <div>
+                            <h1>AB+</h1>
+                            <h6>Available Bags:{{ blood_bank.blood_group_ab_positive }}</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="user-dashboard-card" style="background: #b34444">
+                        <div>
+                            <h1>AB-</h1>
+                            <h6>Available Bags:{{ blood_bank.blood_group_ab_negative }}</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary" id="modelHandler">Update blood bag quantity
+            </button>
+
+
+
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="false">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Update blood bag quantity</h5>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" action="{% url 'update_blood_group' %}">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label for="blood_group_a_positive mb-2 d-block">A+</label>
+                                        {{ blood_bank_form.blood_group_a_positive }}
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="blood_group_a_negative mb-2 d-block">A-</label>
+                                        {{ blood_bank_form.blood_group_a_negative }}
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="blood_group_b_positive mb-2 d-block">B+</label>
+                                        {{ blood_bank_form.blood_group_b_positive }}
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="blood_group_b_negative mb-2 d-block">B-</label>
+                                        {{ blood_bank_form.blood_group_b_negative }}
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="blood_group_o_positive mb-2 d-block">O+</label>
+                                        {{ blood_bank_form.blood_group_o_positive }}
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="blood_group_o_negative mb-2 d-block">O-</label>
+                                        {{ blood_bank_form.blood_group_o_negative }}
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="blood_group_ab_positive mb-2 d-block">AB+</label>
+                                        {{ blood_bank_form.blood_group_ab_positive }}
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="blood_group_ab_negative mb-2 d-block">AB-</label>
+                                        {{ blood_bank_form.blood_group_ab_negative }}
+                                    </div>
+                                </div>
+                                 <button type="submit" type="button" class="btn btn-primary">Save</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        {% else %}
+
+            <h1 class="mb-5">Welcome to blood unity</h1>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="user-dashboard-card" style="background: #b34444">
+                        <div>
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+
+                        <p class="mb-0"><strong>Name:</strong> {{ user.get_full_name }}</p>
+                        <p class="mb-0"><strong>Blood Group:</strong> {{ user.generaluser.blood_group }}</p>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="user-dashboard-card" style="background: #75428e">
+                        <div>
+                            <i class="fa-solid fa-hourglass"></i>
+                        </div>
+
+                        <p class="mb-0"><strong>Name:</strong> {{ user.get_full_name }}</p>
+                        <p class="mb-0"><strong>Blood Group:</strong> {{ user.generaluser.blood_group }}</p>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="user-dashboard-card" style="background: #868e42">
+                        <div>
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+
+                        <p class="mb-0"><strong>Name:</strong> {{ user.get_full_name }}</p>
+                        <p class="mb-0"><strong>Blood Group:</strong> {{ user.generaluser.blood_group }}</p>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="user-dashboard-card" style="background: #42518e">
+                        <div>
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+
+                        <p class="mb-0"><strong>Name:</strong> {{ user.get_full_name }}</p>
+                        <p class="mb-0"><strong>Blood Group:</strong> {{ user.generaluser.blood_group }}</p>
+                    </div>
+                </div>
+            </div>
+
+        {% endif %}
     </div>
+{% endblock %}
+{% block script %}
+    <script>
+        $(document).ready(function () {
+            $('#modelHandler').click(function () {
+                $('#myModal').modal('show')
+            })
+        });
+    </script>
 {% endblock %}

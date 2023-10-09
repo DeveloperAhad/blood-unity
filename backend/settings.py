@@ -73,7 +73,8 @@ INSTALLED_APPS = [
     'dashboard',
     'locations',
     'general_users',
-    'chatbox'
+    'chatbox',
+    'blood_banks'
 ]
 
 MIDDLEWARE = [

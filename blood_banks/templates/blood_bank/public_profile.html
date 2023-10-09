@@ -1,0 +1,87 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="profile-image">
+            {% if blood_bank.avatar %}
+                <img src="{{ blood_bank.avatar.url }}" alt="">
+            {% else %}
+                  <i class="fa-solid fa-user"></i>
+            {% endif %}
+        </div>
+
+        <div class="text-center">
+            <h1> {{ user.get_full_name }}</h1>
+            <h4>Phone: {{ blood_bank.user.phone_number }}</h4>
+            <h4>Address: {{ blood_bank.get_address }}</h4>
+            <a href="{% url 'create_chat_room' participant_id=blood_bank.user.id %}" class="btn btn-primary"><i class="fa-solid fa-comment"></i></a>
+              <div class="row pt-5">
+                <div class="col-lg-3">
+                    <div class="user-dashboard-card" style="background: #b34444">
+                        <div>
+                            <h1>A+</h1>
+                            <h6>Available Bags:{{ blood_bank.blood_group_a_positive }}</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="user-dashboard-card" style="background: #b34444">
+                        <div>
+                            <h1>A-</h1>
+                            <h6>Available Bags:{{ blood_bank.blood_group_a_negative }}</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="user-dashboard-card" style="background: #b34444">
+                        <div>
+                            <h1>B+</h1>
+                            <h6>Available Bags:{{ blood_bank.blood_group_b_positive }}</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="user-dashboard-card" style="background: #b34444">
+                        <div>
+                            <h1>B-</h1>
+                            <h6>Available Bags:{{ blood_bank.blood_group_b_negative }}</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="user-dashboard-card" style="background: #b34444">
+                        <div>
+                            <h1>O+</h1>
+                            <h6>Available Bags:{{ blood_bank.blood_group_o_positive }}</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="user-dashboard-card" style="background: #b34444">
+                        <div>
+                            <h1>O-</h1>
+                            <h6>Available Bags:{{ blood_bank.blood_group_o_negative }}</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="user-dashboard-card" style="background: #b34444">
+                        <div>
+                            <h1>AB+</h1>
+                            <h6>Available Bags:{{ blood_bank.blood_group_ab_positive }}</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="user-dashboard-card" style="background: #b34444">
+                        <div>
+                            <h1>AB-</h1>
+                            <h6>Available Bags:{{ blood_bank.blood_group_ab_negative }}</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

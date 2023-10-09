@@ -66,6 +66,32 @@ class GeneralUserRegisterForm(forms.Form):
 
         if User.objects.filter(phone_number=cleaned_data.get('phone_number')).exists():
             raise forms.ValidationError({'phone_number': 'Phone number already exists'})
+        return cleaned_data
 
 
+class BloodBankRegisterForm(forms.Form):
+    name = forms.CharField(max_length=100)
+    address = forms.CharField(max_length=100)
+    division = forms.ModelChoiceField(queryset=Division.objects.all())
+    district = forms.ModelChoiceField(queryset=District.objects.all())
+    upazila = forms.ModelChoiceField(queryset=Upazila.objects.all())
+    union = forms.ModelChoiceField(queryset=Union.objects.all())
+    email = forms.EmailField(required=False)
+    phone_number = forms.CharField(max_length=11, min_length=11)
+    password = forms.CharField(widget=forms.PasswordInput)
+    confirm_password = forms.CharField(widget=forms.PasswordInput)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get('password')
+        confirm_password = cleaned_data.get('confirm_password')
+
+        if password != confirm_password:
+            raise forms.ValidationError({'confirm_password': 'Password mismatched'})
+
+        if User.objects.filter(email=cleaned_data.get('email')).exists():
+            raise forms.ValidationError({'email': 'Email already exists'})
+
+        if User.objects.filter(phone_number=cleaned_data.get('phone_number')).exists():
+            raise forms.ValidationError({'phone_number': 'Phone number already exists'})
         return cleaned_data

@@ -10,10 +10,10 @@ class AccountAdmin(UserAdmin):
     add_form = AccountCreationForm
     form = AccountChangeForm
     model = Account
-    list_display = ('email', 'is_staff', 'is_active',)
-    list_filter = ('email', 'is_staff', 'is_active',)
+    list_display = ('first_name', 'is_staff', 'is_active',)
+    list_filter = ('phone_number', 'is_staff', 'is_active',)
     fieldsets = (
-        (None, {'fields': ('account_type', 'email', 'password', 'first_name', 'last_name', 'phone_number', 'gender', 'birth_date')}),
+        (None, {'fields': ('account_type', 'email', 'password', 'first_name', 'last_name', 'phone_number',)}),
         ('Permissions', {'fields': ('is_superuser', 'is_staff', 'is_active',)}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
     )

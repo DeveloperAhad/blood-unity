@@ -11,6 +11,13 @@
     <link rel="stylesheet"
           type="text/css"
           href="{% static "css/bootstrap.min.css" %}"/>
+    <link rel="stylesheet"
+          type="text/css"
+          href="{% static "css/style.css" %}"/>
+    <link rel="stylesheet"
+          type="text/css"
+          href="{% static "assets/fontawsome/css/all.css" %}"/>
+    {% block style %} {% endblock style %}
 
 </head>
 <body>
@@ -23,24 +30,41 @@
             </a>
         </div>
 
-{#        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">#}
-{#            <li><a href="#" class="nav-link px-2 {% if request.path == '/' %}link-secondary{% endif %}">Home</a></li>#}
-{#            <li><a href="#" class="nav-link px-2">Features</a></li>#}
-{#            <li><a href="#" class="nav-link px-2">FAQs</a></li>#}
-{#            <li><a href="#" class="nav-link px-2">About</a></li>#}
-{#        </ul>#}
+        {#        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">#}
+        {#            <li><a href="#" class="nav-link px-2 {% if request.path == '/' %}link-secondary{% endif %}">Home</a></li>#}
+        {#            <li><a href="#" class="nav-link px-2">Features</a></li>#}
+        {#            <li><a href="#" class="nav-link px-2">FAQs</a></li>#}
+        {#            <li><a href="#" class="nav-link px-2">About</a></li>#}
+        {#        </ul>#}
 
-    {% if user.is_authenticated %}
-        <div class="col-md-3 text-end">
-            <a type="button" class="btn btn-outline-primary me-2" href="{% url 'logout' %}">Logout</a>
-            <a type="button" class="btn btn-primary" href="#">Profile</a>
-        </div>
-    {% else %}
-        <div class="col-md-3 text-end">
-            <a type="button" class="btn btn-outline-primary me-2" href="{% url 'login' %}">Login</a>
-            <a type="button" class="btn btn-primary" href="{% url 'register' %}">Sign-up</a>
-        </div>
-    {% endif %}
+        {% if user.is_authenticated %}
+            <div class="col-md-5 text-end">
+                <a type="button" class="btn btn-outline-primary me-2" href="{% url 'search_donors' %}"><i
+                        class="fa fa-search"></i> Search Donor</a>
+                <a type="button" class="btn btn-outline-primary me-2" href="{% url 'search_blood_bank' %}"><i
+                        class="fa fa-search"></i> Search Blood Bank</a>
+                {#                <div class="dropdown">#}
+                <a type="button" class="btn btn-outline-primary me-2" href="{% url 'chatbox_index' %}"><i
+                        class="fa fa-comment"></i> </a>
+
+
+                <button class="btn btn-secondary" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                    {{ request.user.first_name.0|upper }}
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                </ul>
+                {#                </div>#}
+            </div>
+        {% else %}
+            <div class="col-md-3 text-end">
+                <a type="button" class="btn btn-outline-primary me-2" href="{% url 'login' %}">Login</a>
+                <a type="button" class="btn btn-primary" href="{% url 'register' %}">Sign-up</a>
+            </div>
+        {% endif %}
 
     </div>
 </header>

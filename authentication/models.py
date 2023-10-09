@@ -27,12 +27,20 @@ class Account(AbstractUser):
     objects = AccountManager()
 
     def __str__(self):
-        return self.email
+        return self.email or self.phone_number
 
     @classmethod
     def general_user_register(cls, first_name, last_name, phone_number, password):
         return cls.objects.create(
+            account_type=cls.AccountType.USER,
             first_name=first_name, last_name=last_name, phone_number=phone_number, password=make_password(password)
+        )
+
+    @classmethod
+    def blood_bank_register(cls, name, phone_number, password):
+        return cls.objects.create(
+            account_type=cls.AccountType.BLOOD_BANK,
+            first_name=name, phone_number=phone_number, password=make_password(password)
         )
 
 

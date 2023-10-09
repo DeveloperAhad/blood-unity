@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                {% include 'dashboard/form/search.html' %}
+                {% include 'dashboard/form/search-donor.html' %}
                 <form method="get">
                     {{ filter.form.gender_id }}
 
@@ -13,28 +13,26 @@
             </div>
         </div>
         <div class="row mt-5">
-                {% for obj in filter.qs %}
-
-                    <div class="col-md-4">
-                     <div class="card">
-        <div class="card-header bg-danger text-white">
-            Blood Donor Information
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">{{ obj.user.first_name }} {{  obj.user.last_name }}</h5>
-            <p class="card-text">
-                <strong>Blood Type:</strong> {{ obj.blood_group }}
-                <br>
-                <strong>Age:</strong> {{ obj.get_age }}
-                <br>
-                <strong>Location:</strong> {{ obj.get_address }}
-            </p>
-            <a href="#" class="btn btn-primary">Contact Donor</a>
-        </div>
-    </div>
+            {% for obj in filter.qs %}
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header bg-danger text-white">
+                            Blood Donor Information
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ obj.user.first_name }} {{ obj.user.last_name }}</h5>
+                            <p class="card-text">
+                                <strong>Blood Group:</strong> {{ obj.blood_group }}
+                                <br>
+                                <strong>Location:</strong> {{ obj.get_address }}
+                            </p>
+                            <a href="{% url 'create_chat_room' participant_id=obj.user.id %}" class="btn btn-primary"><i class="fa fa-comment"></i></a>
+                            <a href="{% url 'public_profile' id=obj.id %}" class="btn btn-primary"><i class="fa fa-eye"></i></a>
+                        </div>
                     </div>
+                </div>
 
-                {% endfor %}
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

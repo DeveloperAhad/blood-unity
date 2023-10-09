@@ -1,0 +1,72 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                {% include 'dashboard/form/search-blood-bank.html' %}
+                <form method="get">
+                    {{ filter.form.gender_id }}
+
+                </form>
+            </div>
+        </div>
+        <div class="row mt-5">
+            {% for obj in filter.qs %}
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header bg-danger text-white">
+                            Blood Bank Information
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ obj.user.first_name }}</h5>
+                            <p class="card-text mb-0">
+                                <strong>Phone:</strong> {{ obj.user.phone_number }} <br>
+                                <strong>Location:</strong> {{ obj.get_address }}<br>
+                                <strong>Available Blood Bags:</strong>
+                            </p>
+                            <div class="row mb-3">
+                                <div class="col-3">
+                                    A+ : {{ obj.blood_group_a_positive }}<br>
+                                </div>
+                                <div class="col-3">
+                                    A- : {{ obj.blood_group_a_negative }}<br>
+                                </div>
+                                <div class="col-3">
+                                    B+ : {{ obj.blood_group_b_positive }}<br>
+                                </div>
+                                <div class="col-3">
+                                    B- : {{ obj.blood_group_b_negative }}<br>
+                                </div>
+                                <div class="col-3">
+                                    O+ : {{ obj.blood_group_o_positive }}<br>
+                                </div>
+                                <div class="col-3">
+                                    O- : {{ obj.blood_group_o_negative }}<br>
+                                </div>
+                                <div class="col-3">
+                                    AB+ : {{ obj.blood_group_ab_positive }}<br>
+                                </div>
+                                <div class="col-3">
+                                    AB- : {{ obj.blood_group_ab_negative }}<br>
+                                </div>
+
+                            </div>
+                            <a href="{% url 'create_chat_room' participant_id=obj.user.id %}" class="btn btn-primary"><i
+                                    class="fa fa-comment"></i></a>
+                            <a href="{% url 'blood_bank_public_profile' id=obj.id %}" class="btn btn-primary"><i
+                                    class="fa fa-eye"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block script %}
+    <script src="{% static 'assets/js/register.js' %}"></script>
+{% endblock %}

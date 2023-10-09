@@ -1,0 +1,24 @@
+{% extends 'base/base.html' %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            {% for chat in all_chat_rooms %}
+                <div class="col-2">
+                    <a class="chat-contact text-center" href="{% url 'chat_room' room_name=chat.room_name %}">
+                        <div class="profile-image" style="width: 150px; height: 150px; ">
+                            {% if chat.user.avatar %}
+                                <img src="{{ chat.user.avatar.url }}" alt="">
+                            {% else %}
+                                <i class="fa-solid fa-user"></i>
+                            {% endif %}
+                        </div>
+                        <div>{{ chat.person.first_name }}</div>
+                    {% if chat.unread_messages_count > 0 %}
+                    <span class="unread-messages">{{ chat.unread_messages_count }}</span>
+                    {% endif %}
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
