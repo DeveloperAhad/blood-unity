@@ -4,6 +4,7 @@ from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 from django.utils import timezone
 
+from notification.models import create_blood_request_notification
 from .models import ChatRoom, Message  # Import your ChatRoom and Message models
 
 
@@ -34,7 +35,6 @@ class ChatConsumer(WebsocketConsumer):
         message_type = text_data_json["message_type"]
         sender = self.scope["user"]  # Assuming you have user authentication in place
         chat_room = self.get_or_create_chat_room(self.room_name)
-        print(message_type)
 
         if message_type == 'chat_message':
             message = Message.objects.create(room=chat_room, sender=sender, content=message_content)

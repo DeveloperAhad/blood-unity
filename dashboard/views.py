@@ -1,15 +1,11 @@
-import json
-
 from django.db.models import Q
 from django.shortcuts import render, redirect
 
-from authentication.forms import GeneralUserRegisterForm
 from authentication.utility import unauthenticated_user
-from backend.settings import BASE_DIR
 from blood_banks.models import BloodBank
 from dashboard.filters import GeneralUserFilter, BloodBankFilter
 from dashboard.form.search import SearchForm
-from dashboard.forms import BloodGroupUpdateForm
+from dashboard.forms import BloodGroupUpdateForm, ProfileUpdateForm, UserUpdateForm, BloodBankProfileUpdateForm
 from general_users.models import GeneralUser
 
 
@@ -18,11 +14,44 @@ def index(request):
     return render(request, 'dashboard/index.html')
 
 
+def profile_view(request):
+    if request.user.account_type == 'blood_bank':
+        if request.method == 'POST':
+            form1 = BloodBankProfileUpdateForm(request.POST, instance=request.user.bloodbank)
+            form2 = UserUpdateForm(request.POST, instance=request.user)
+            if form1.is_valid() and form2.is_valid():
+                form1.save()
+                form2.save()
+                return redirect('/dashboard/profile')
+            else:
+                return render(request, 'dashboard/profile.html', {'form1': form1, 'form2': form2})
+        else:
+            form1 = BloodBankProfileUpdateForm(instance=request.user.bloodbank)
+            form2 = UserUpdateForm(instance=request.user)
+            return render(request, 'dashboard/profile.html', {'form1': form1, 'form2': form2})
+    else:
+        if request.method == 'POST':
+            form1 = ProfileUpdateForm(request.POST, instance=request.user.generaluser)
+            form2 = UserUpdateForm(request.POST, instance=request.user)
+            if form1.is_valid() and form2.is_valid():
+                form1.save()
+                form2.save()
+                return redirect('/dashboard/profile')
+            else:
+                return render(request, 'dashboard/profile.html', {'form1': form1, 'form2': form2})
+        else:
+            form1 = ProfileUpdateForm(instance=request.user.generaluser)
+            form2 = UserUpdateForm(instance=request.user)
+            return render(request, 'dashboard/profile.html', {'form1': form1, 'form2': form2})
+
+
 def dashboard(request):
     context = {
         'user': request.user,
-        'blood_bank': BloodBank.objects.get(user_id=request.user.id) if request.user.account_type == 'blood_bank' else None,
-        'blood_bank_form': BloodGroupUpdateForm(instance= BloodBank.objects.get(user_id=request.user.id)) if request.user.account_type == 'blood_bank' else None,
+        'blood_bank': BloodBank.objects.get(
+            user_id=request.user.id) if request.user.account_type == 'blood_bank' else None,
+        'blood_bank_form': BloodGroupUpdateForm(instance=BloodBank.objects.get(
+            user_id=request.user.id)) if request.user.account_type == 'blood_bank' else None,
     }
     return render(request, 'dashboard/dashboard.html', context)
 

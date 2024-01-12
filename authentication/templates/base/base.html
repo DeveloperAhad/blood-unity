@@ -44,16 +44,33 @@
                 <a type="button" class="btn btn-outline-primary me-2" href="{% url 'search_blood_bank' %}"><i
                         class="fa fa-search"></i> Search Blood Bank</a>
                 {#                <div class="dropdown">#}
-                <a type="button" class="btn btn-outline-primary me-2" href="{% url 'chatbox_index' %}"><i
-                        class="fa fa-comment"></i> </a>
+                <a type="button" class="btn btn-outline-primary me-2" href="{% url 'chatbox_index' %}"><i class="fa-regular fa-comments"></i> </a>
+                   <div class="dropdown">
+                    <button class="btn btn-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="fa-solid fa-bell"></i>
+                    </button>
 
+                    <ul class="dropdown-menu notifications" role="menu" aria-labelledby="dLabel">
+
+                        <div class="notification-heading"><h4 class="menu-title">Notifications</h4>
+                        </div>
+                        <li class="divider"></li>
+                        <div class="notifications-wrapper">
+                            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}" hidden="hidden">
+                        </div>
+                        <li class="divider"></li>
+                        <div class="notification-footer pt-2"><a href="#" class="menu-title">View all</a></div>
+                    </ul>
+
+                </div>
 
                 <button class="btn btn-secondary" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
                     {{ request.user.first_name.0|upper }}
                 </button>
+
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
                     <li><a class="dropdown-item" href="#">Settings</a></li>
                     <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
                 </ul>
@@ -71,6 +88,11 @@
 {% block content %} {% endblock content %}
 <script src="{% static "js/jquery-3.4.1.min.js" %}"></script>
 <script src="{% static "js/bootstrap.min.js" %}"></script>
-{% block script %} {% endblock script %}
+<script src="{% static "js/notifications.js" %}"></script>
+
+
+{% block script %}
+
+{% endblock script %}
 </body>
 </html>

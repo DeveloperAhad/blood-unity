@@ -28,6 +28,7 @@ urlpatterns = [
     path('users/', include('general_users.urls')),
     path('blood_banks/', include('blood_banks.urls')),
     path('chats/', include('chatbox.urls')),
+    path('notifications/', include('notification.urls')),
     path('', index, name='index')
 ]
 

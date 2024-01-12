@@ -14,6 +14,6 @@ WORKDIR /code
 COPY requirements.dev.txt /code/
 RUN pip install --upgrade pip
 RUN pip install -r requirements.dev.txt
-COPY . /code/
+COPY dockerfiles /code/
 
 ENTRYPOINT ["sh", "./entrypoint.dev.sh"]

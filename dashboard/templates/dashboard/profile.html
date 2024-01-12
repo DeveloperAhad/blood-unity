@@ -1,0 +1,98 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4"></div>
+        </div>
+          <form method="post" class="my-class">
+            {% csrf_token %}
+
+            <div class="row">
+
+        {%  if request.user.account_type == 'blood_bank' %}
+                <div class="col col-12">
+                    <h4>Blood Bank Information </h4>
+                </div>
+                 <div class="col col-6">
+                 <label for="id_email" class="form-label">
+                Name
+            </label>
+                    {{ form2.first_name }}
+                    {{ form2.first_name.errors | as_crispy_errors }}
+                </div>
+                <div class="col col-6">
+                    {{ form2.email | as_crispy_field }}
+                    {{ form2.email.errors | as_crispy_errors }}
+                </div>
+
+               <div class="col col-12 mt-5">
+                    <h4>Blood Bank Address </h4>
+                </div>
+        {%  else %}
+            <div class="col col-12">
+                <h4>Personal Information </h4>
+            </div>
+                <div class="col col-6">
+                    {{ form2.first_name | as_crispy_field }}
+                    {{ form2.first_name.errors | as_crispy_errors }}
+                </div>
+                <div class="col col-6">
+                    {{ form2.last_name | as_crispy_field }}
+                    {{ form2.last_name.errors | as_crispy_errors }}
+                </div>
+                <div class="col col-6">
+                    {{ form2.email | as_crispy_field }}
+                    {{ form2.email.errors | as_crispy_errors }}
+                </div>
+                <div class="col col-6">
+                    {{ form1.blood_group | as_crispy_field }}
+                    {{ form1.blood_group.errors | as_crispy_errors }}
+                </div>
+                <div class="col col-6">
+                    {{ form1.birth_date | as_crispy_field }}
+                    {{ form1.birth_date.errors | as_crispy_errors }}
+                </div>
+
+                <div class="col col-6">
+                    {{ form1.avatar | as_crispy_field }}
+                    {{ form1.avatar.errors | as_crispy_errors }}
+                </div>
+
+               <div class="col col-12 mt-5">
+                    <h4>Personal Address </h4>
+                </div>
+                {% endif %}
+                <div class="col col-6">
+                    {{ form1.address | as_crispy_field }}
+                    {{ form1.address.errors | as_crispy_errors }}
+                </div>
+                <div class="col col-6">
+                    {{ form1.division | as_crispy_field }}
+                    {{ form1.division.errors | as_crispy_errors }}
+                </div>
+                <div class="col col-6">
+                    {{ form1.district | as_crispy_field }}
+                    {{ form1.district.errors | as_crispy_errors }}
+                </div>
+                <div class="col col-6">
+                    {{ form1.upazila | as_crispy_field }}
+                    {{ form1.upazila.errors | as_crispy_errors }}
+                </div>
+                <div class="col col-6">
+                    {{ form1.union | as_crispy_field }}
+                    {{ form1.union.errors | as_crispy_errors }}
+                </div>
+
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+    </div>
+{% endblock %}
+{% block script %}
+    <script src="{% static 'assets/js/update.js' %}"></script>
+{% endblock %}
