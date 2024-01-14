@@ -22,7 +22,7 @@ $(document).ready(function () {
 
     var notificationWrapper = $('.notifications-wrapper');
 
-// Make the AJAX request
+    // Make the AJAX request
     $.ajax({
         type: 'GET', // Change this to the desired HTTP method (GET, POST, etc.)
         url: url,

@@ -74,8 +74,6 @@
             <button type="button" class="btn btn-primary" id="modelHandler">Update blood bag quantity
             </button>
 
-
-
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                  aria-hidden="false">
                 <div class="modal-dialog" role="document">
@@ -129,62 +127,40 @@
 
         {% else %}
 
-            <h1 class="mb-5">Welcome to blood unity</h1>
+
             <div class="row">
-                <div class="col-lg-3">
+                <div class="col-lg-12 text-center">
                     <div class="user-dashboard-card" style="background: #b34444">
-                        <div>
-                            <i class="fa-solid fa-user"></i>
+                        <div class="profile-image-2">
+                            {% if user.generaluser.avatar %}
+                                <img src="{{ user.generaluser.avatar.url }}" alt="">
+                            {% else %}
+                                <i class="fa-solid fa-user"></i>
+                            {% endif %}
                         </div>
-
-                        <p class="mb-0"><strong>Name:</strong> {{ user.get_full_name }}</p>
-                        <p class="mb-0"><strong>Blood Group:</strong> {{ user.generaluser.blood_group }}</p>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="user-dashboard-card" style="background: #75428e">
-                        <div>
-                            <i class="fa-solid fa-hourglass"></i>
+                        <p class="mb-0"><strong>{{ user.get_full_name }}</strong></p>
+                        <p class="mb-0">Blood Group:{{ user.generaluser.blood_group }}</p>
+                        <p class="mb-0">Age:{{ user.generaluser.get_age }}</p>
+                        <div class="overlay-welcome">
+                            <h1>Welcome to blood unity</h1>
                         </div>
-
-                        <p class="mb-0"><strong>Name:</strong> {{ user.get_full_name }}</p>
-                        <p class="mb-0"><strong>Blood Group:</strong> {{ user.generaluser.blood_group }}</p>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="user-dashboard-card" style="background: #868e42">
-                        <div>
-                            <i class="fa-solid fa-user"></i>
-                        </div>
-
-                        <p class="mb-0"><strong>Name:</strong> {{ user.get_full_name }}</p>
-                        <p class="mb-0"><strong>Blood Group:</strong> {{ user.generaluser.blood_group }}</p>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="user-dashboard-card" style="background: #42518e">
-                        <div>
-                            <i class="fa-solid fa-user"></i>
-                        </div>
-
-                        <p class="mb-0"><strong>Name:</strong> {{ user.get_full_name }}</p>
-                        <p class="mb-0"><strong>Blood Group:</strong> {{ user.generaluser.blood_group }}</p>
                     </div>
                 </div>
             </div>
+            <div>
 
+                <h3 class="mb-4">Nearest Blood Bank</h3>
 
-            <h3 class="mb-4">Nearest Blood Bank</h3>
-
-            <div id='map'></div>
+                <div id='map'></div>
+            </div>
 
         {% endif %}
     </div>
 {% endblock %}
 {% block script %}
 
-<link href="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.css" rel="stylesheet">
-<script src="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.js"></script>
     <script>
         $(document).ready(function () {
             $('#modelHandler').click(function () {
@@ -197,7 +173,7 @@
         const map = new mapboxgl.Map({
             container: 'map', // container ID
             style: 'mapbox://styles/mapbox/streets-v12', // style URL
-            center: [ 89.372963, 24.848078], // starting position [lng, lat]
+            center: [89.372963, 24.848078], // starting position [lng, lat]
             zoom: 9, // starting zoom
         });
 
@@ -206,12 +182,95 @@
                 positionOptions: {
                     enableHighAccuracy: true
                 },
-// When active the map will receive updates to the device's location as it changes.
                 trackUserLocation: true,
-// Draw an arrow next to the location dot to indicate which direction the device is heading.
                 showUserHeading: true
             })
         );
+
+        {% for blood_bank in all_blood_bank %}
+
+            var marker = new mapboxgl.Marker()
+                .setLngLat([{{ blood_bank.lng }}, {{ blood_bank.lat }}])
+                .addTo(map);
+
+        {% endfor %}
+
+
+
+        // change map center
+        if ('geolocation' in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    // Update map position based on user's current location
+                    const {longitude, latitude} = position.coords;
+                    map.setCenter([longitude, latitude]);
+                    map.setZoom(12); // You can adjust the zoom level as needed
+                },
+                (error) => {
+                    console.error('Error getting geolocation:', error.message);
+                }
+            );
+        } else {
+            console.error('Geolocation is not supported by your browser');
+        }
+
+
+        map.on('load', () => {
+            map.addSource('places', {
+// This GeoJSON contains features that include an "icon"
+// property. The value of the "icon" property corresponds
+// to an image in the Mapbox Streets style's sprite.
+                'type': 'geojson',
+                'data': {
+                    'type': 'FeatureCollection',
+                    'features': [
+                        {% for blood_bank in all_blood_bank %}
+                            {
+                                'type': 'Feature',
+                                'properties': {
+                                    'description':
+                                        '<strong>Make it Mount Pleasant</strong><p><a href="http://www.mtpleasantdc.com/makeitmtpleasant" target="_blank" title="Opens in a new window">Make it Mount Pleasant</a> is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</p>',
+                                    'icon': 'theatre'
+                                },
+                                'geometry': {
+                                    'type': 'Point',
+                                    'coordinates': [{{ blood_bank.lng }}, {{ blood_bank.lat }}]
+                                }
+                            },
+
+                        {% endfor %}
+                    ]
+                }
+            });
+        });
+
+        map.on('click', 'places', (e) => {
+// Copy coordinates array.
+            const coordinates = e.features[0].geometry.coordinates.slice();
+            const description = e.features[0].properties.description;
+
+// Ensure that if the map is zoomed out such that multiple
+// copies of the feature are visible, the popup appears
+// over the copy being pointed to.
+            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+            }
+
+            new mapboxgl.Popup()
+                .setLngLat(coordinates)
+                .setHTML(description)
+                .addTo(map);
+        });
+
+        // Change the cursor to a pointer when the mouse is over the places layer.
+        map.on('mouseenter', 'places', () => {
+            map.getCanvas().style.cursor = 'pointer';
+        });
+
+        // Change it back to a pointer when it leaves.
+        map.on('mouseleave', 'places', () => {
+            map.getCanvas().style.cursor = '';
+        });
 
     </script>
 {% endblock %}

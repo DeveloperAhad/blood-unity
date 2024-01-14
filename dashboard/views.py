@@ -1,3 +1,5 @@
+from django.contrib.gis.geos import Point
+from django.contrib.gis.measure import Distance
 from django.db.models import Q
 from django.shortcuts import render, redirect
 
@@ -28,7 +30,7 @@ def profile_view(request):
         else:
             form1 = BloodBankProfileUpdateForm(instance=request.user.bloodbank)
             form2 = UserUpdateForm(instance=request.user)
-            return render(request, 'dashboard/profile.html', {'form1': form1, 'form2': form2})
+            return render(request, 'dashboard/profile.html', {'form1': form1, 'form2': form2, 'blood_bank': request.user.bloodbank})
     else:
         if request.method == 'POST':
             form1 = ProfileUpdateForm(request.POST, instance=request.user.generaluser)
@@ -52,6 +54,7 @@ def dashboard(request):
             user_id=request.user.id) if request.user.account_type == 'blood_bank' else None,
         'blood_bank_form': BloodGroupUpdateForm(instance=BloodBank.objects.get(
             user_id=request.user.id)) if request.user.account_type == 'blood_bank' else None,
+        'all_blood_bank': BloodBank.objects.all(),
     }
     return render(request, 'dashboard/dashboard.html', context)
 
@@ -79,3 +82,23 @@ def search_blood_bank(request):
     else:
         f = []
     return render(request, 'dashboard/search-blood-bank.html', {'filter': f, 'form': SearchForm()})
+
+
+def near_by_blood_banks(request):
+    lat = request.GET.get('latitude', None)
+    lng = request.GET.get('longitude', None)
+    if lat is None or lng is None:
+        return redirect('/dashboard/')
+    target_point = Point(x=float(lng), y=float(lat), srid=4326)
+    queryset = BloodBank.objects.filter(location_point__distance_lte=(target_point, Distance(km=10)))
+    return render(request, 'dashboard/nearby-blood-bank.html', {'blood_banks': queryset})
+
+
+def near_by_donors(request):
+    lat = request.GET.get('latitude', None)
+    lng = request.GET.get('longitude', None)
+    if lat is None or lng is None:
+        return redirect('dashboard')
+    target_point = Point(x=float(lng), y=float(lat), srid=4326)
+    queryset = GeneralUser.objects.filter(last_point__distance_lte=(target_point, Distance(km=10)))
+    return render(request, 'dashboard/nearby-donors.html', {'donors': queryset})

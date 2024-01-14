@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
+from django.contrib.gis.db import models as geoModels
 
 user = get_user_model()
 
@@ -33,6 +34,8 @@ class GeneralUser(models.Model):
     union = models.ForeignKey('locations.Union', on_delete=models.SET_NULL, null=True)
     blood_group = models.CharField(max_length=3, choices=BloodGroup.choices, null=True)
     user = models.OneToOneField(user, on_delete=models.CASCADE)
+
+    last_point = geoModels.PointField(null=True, blank=True)
 
     @property
     def get_age(self):

@@ -9,63 +9,63 @@
         <div class="row">
             <div class="col-md-4"></div>
         </div>
-          <form method="post" class="my-class">
+        <form method="post" class="my-class">
             {% csrf_token %}
 
             <div class="row">
 
-        {%  if request.user.account_type == 'blood_bank' %}
-                <div class="col col-12">
-                    <h4>Blood Bank Information </h4>
-                </div>
-                 <div class="col col-6">
-                 <label for="id_email" class="form-label">
-                Name
-            </label>
-                    {{ form2.first_name }}
-                    {{ form2.first_name.errors | as_crispy_errors }}
-                </div>
-                <div class="col col-6">
-                    {{ form2.email | as_crispy_field }}
-                    {{ form2.email.errors | as_crispy_errors }}
-                </div>
+                {% if request.user.account_type == 'blood_bank' %}
+                    <div class="col col-12">
+                        <h4>Blood Bank Information </h4>
+                    </div>
+                    <div class="col col-6">
+                        <label for="id_email" class="form-label">
+                            Name
+                        </label>
+                        {{ form2.first_name }}
+                        {{ form2.first_name.errors | as_crispy_errors }}
+                    </div>
+                    <div class="col col-6">
+                        {{ form2.email | as_crispy_field }}
+                        {{ form2.email.errors | as_crispy_errors }}
+                    </div>
 
-               <div class="col col-12 mt-5">
-                    <h4>Blood Bank Address </h4>
-                </div>
-        {%  else %}
-            <div class="col col-12">
-                <h4>Personal Information </h4>
-            </div>
-                <div class="col col-6">
-                    {{ form2.first_name | as_crispy_field }}
-                    {{ form2.first_name.errors | as_crispy_errors }}
-                </div>
-                <div class="col col-6">
-                    {{ form2.last_name | as_crispy_field }}
-                    {{ form2.last_name.errors | as_crispy_errors }}
-                </div>
-                <div class="col col-6">
-                    {{ form2.email | as_crispy_field }}
-                    {{ form2.email.errors | as_crispy_errors }}
-                </div>
-                <div class="col col-6">
-                    {{ form1.blood_group | as_crispy_field }}
-                    {{ form1.blood_group.errors | as_crispy_errors }}
-                </div>
-                <div class="col col-6">
-                    {{ form1.birth_date | as_crispy_field }}
-                    {{ form1.birth_date.errors | as_crispy_errors }}
-                </div>
+                    <div class="col col-12 mt-5">
+                        <h4>Blood Bank Address </h4>
+                    </div>
+                {% else %}
+                    <div class="col col-12">
+                        <h4>Personal Information </h4>
+                    </div>
+                    <div class="col col-6">
+                        {{ form2.first_name | as_crispy_field }}
+                        {{ form2.first_name.errors | as_crispy_errors }}
+                    </div>
+                    <div class="col col-6">
+                        {{ form2.last_name | as_crispy_field }}
+                        {{ form2.last_name.errors | as_crispy_errors }}
+                    </div>
+                    <div class="col col-6">
+                        {{ form2.email | as_crispy_field }}
+                        {{ form2.email.errors | as_crispy_errors }}
+                    </div>
+                    <div class="col col-6">
+                        {{ form1.blood_group | as_crispy_field }}
+                        {{ form1.blood_group.errors | as_crispy_errors }}
+                    </div>
+                    <div class="col col-6">
+                        {{ form1.birth_date | as_crispy_field }}
+                        {{ form1.birth_date.errors | as_crispy_errors }}
+                    </div>
 
-                <div class="col col-6">
-                    {{ form1.avatar | as_crispy_field }}
-                    {{ form1.avatar.errors | as_crispy_errors }}
-                </div>
+                    <div class="col col-6">
+                        {{ form1.avatar | as_crispy_field }}
+                        {{ form1.avatar.errors | as_crispy_errors }}
+                    </div>
 
-               <div class="col col-12 mt-5">
-                    <h4>Personal Address </h4>
-                </div>
+                    <div class="col col-12 mt-5">
+                        <h4>Personal Address </h4>
+                    </div>
                 {% endif %}
                 <div class="col col-6">
                     {{ form1.address | as_crispy_field }}
@@ -91,8 +91,80 @@
             </div>
             <button type="submit" class="btn btn-primary">Update</button>
         </form>
+
+        {% if request.user.account_type == 'blood_bank' %}
+            <h4 class="mt-5 mb-4">Blood Bank Location </h4>
+            <div id='map'></div>
+
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary mt-3 mb-5" id="mapLocationSetModalHandler">
+                Open Location Picker
+            </button>
+
+            <!-- Location Picker Modal -->
+            <div class="modal" id="locationModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Location Picker</h5>
+                        </div>
+                        <form method="POST" action="{% url 'blood_bank_location_set' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="lat" id="latitude">
+                            <input type="hidden" name="lng" id="longitude">
+                            <div class="modal-body">
+                                <!-- Mapbox Location Picker Container -->
+                                <div id="location_picker_map" style="height: 400px;" class="w-100"></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary" id="saveLocationBtn">Save Location
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
+
+
+
+
 {% endblock %}
 {% block script %}
-    <script src="{% static 'assets/js/update.js' %}"></script>
+    {% if request.user.account_type == 'blood_bank' %}
+        <link href="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.css" rel="stylesheet">
+        <script src="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.js"></script>
+        <script src="{% static 'assets/js/update.js' %}"></script>
+        <script src="{% static 'assets/js/location.js' %}"></script>
+
+        <script>
+        mapboxgl.accessToken = 'pk.eyJ1Ijoid3dmYmNvbSIsImEiOiJja3h5ZzY4dzE2emw1Mm9zdDlpbXRld3kwIn0.FpPT0OUONvotj4grUbSmog';
+
+        const map = new mapboxgl.Map({
+            container: 'map', // container ID
+            style: 'mapbox://styles/mapbox/streets-v12', // style URL
+
+            {% if blood_bank.lat and blood_bank.lng %}
+                center: [{{ blood_bank.lng }}, {{ blood_bank.lat }}], // starting position [lng, lat]
+            {% else %}
+                center: [89.372963, 24.848078], // starting position [lng, lat]
+            {% endif %}
+            zoom: 9, // starting zoom
+        });
+        {% if blood_bank.lat and blood_bank.lng %}
+            const marker = new mapboxgl.Marker({
+                draggable: true
+            })
+                .setLngLat([{{ blood_bank.lng }}, {{ blood_bank.lat }}])
+                .addTo(map);
+        {% endif %}
+        {% if blood_bank.lat and blood_bank.lng %}
+            document.getElementById('latitude').value = {{ blood_bank.lat }};
+            document.getElementById('longitude').value = {{ blood_bank.lng }};
+        {% endif %}
+
+    {% endif %}
+</script>
 {% endblock %}

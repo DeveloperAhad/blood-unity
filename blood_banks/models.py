@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.contrib.gis.db import models as geoModels
 
 user = get_user_model()
 
@@ -21,6 +22,10 @@ class BloodBank(models.Model):
     blood_group_o_negative = models.IntegerField(default=0)
     blood_group_ab_positive = models.IntegerField(default=0)
     blood_group_ab_negative = models.IntegerField(default=0)
+    location_point = geoModels.PointField(null=True, blank=True)
+
+    lat = models.FloatField(blank=True, null=True)
+    lng = models.FloatField(blank=True, null=True)
 
     @property
     def get_address(self):

@@ -6,16 +6,17 @@
             {% if blood_bank.avatar %}
                 <img src="{{ blood_bank.avatar.url }}" alt="">
             {% else %}
-                  <i class="fa-solid fa-user"></i>
+                <i class="fa-solid fa-user"></i>
             {% endif %}
         </div>
 
         <div class="text-center">
-            <h1> {{ user.get_full_name }}</h1>
+            <h1> {{ blood_bank.user.get_full_name }}</h1>
             <h4>Phone: {{ blood_bank.user.phone_number }}</h4>
             <h4>Address: {{ blood_bank.get_address }}</h4>
-            <a href="{% url 'create_chat_room' participant_id=blood_bank.user.id %}" class="btn btn-primary"><i class="fa-solid fa-comment"></i></a>
-              <div class="row pt-5">
+            <a href="{% url 'create_chat_room' participant_id=blood_bank.user.id %}" class="btn btn-primary"><i
+                    class="fa-solid fa-comment"></i></a>
+            <div class="row pt-5">
                 <div class="col-lg-3">
                     <div class="user-dashboard-card" style="background: #b34444">
                         <div>
@@ -81,7 +82,50 @@
                     </div>
                 </div>
             </div>
-
         </div>
+        <a class="btn btn-primary mb-3" target="_blank" href="http://maps.google.com/maps?q={{ blood_bank.lat }},{{ blood_bank.lng }}={{ blood_bank.lat }},{{ blood_bank.lng }}&z=17">Navigate to the location</a>
+        <div id='map'></div>
+
+        <h4 class="mt-3">Leave a rating</h4>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+    <form>
+        <textarea class="form-control mt-3" name="" id="" cols="30" rows="10" placeholder="Leave a rating for this blood bank"></textarea>
+        <button class="btn btn-primary mt-3">Submit</button>
+    </form>
     </div>
+{% endblock %}
+
+
+{% block script %}
+
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.js"></script>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1Ijoid3dmYmNvbSIsImEiOiJja3h5ZzY4dzE2emw1Mm9zdDlpbXRld3kwIn0.FpPT0OUONvotj4grUbSmog';
+
+        const map = new mapboxgl.Map({
+            container: 'map', // container ID
+            style: 'mapbox://styles/mapbox/streets-v12', // style URL
+
+            {% if blood_bank.lat and blood_bank.lng %}
+                center: [{{ blood_bank.lng }}, {{ blood_bank.lat }}], // starting position [lng, lat]
+            {% else %}
+                center: [89.372963, 24.848078], // starting position [lng, lat]
+            {% endif %}
+            zoom: 9, // starting zoom
+        });
+
+        {% if blood_bank.lat and blood_bank.lng %}
+            const marker = new mapboxgl.Marker({
+                draggable: true
+            })
+                .setLngLat([{{ blood_bank.lng }}, {{ blood_bank.lat }}])
+                .addTo(map);
+        {% endif %}
+    </script>
 {% endblock %}

@@ -38,16 +38,25 @@
         {#        </ul>#}
 
         {% if user.is_authenticated %}
-            <div class="col-md-5 text-end">
+            <div class="col-md-9 text-end">
+             {% if request.user.account_type == 'user' %} 
+                <button type="button" class="btn btn-outline-primary me-2" id="nearByDonor"><i
+                        class="fa fa-location"></i>Nearest Donors
+                </button>
+                <button type="button" class="btn btn-outline-primary me-2" id="nearByBloodBank"><i
+                        class="fa fa-location"></i> Nearest Blood Banks
+                </button>
                 <a type="button" class="btn btn-outline-primary me-2" href="{% url 'search_donors' %}"><i
                         class="fa fa-search"></i> Search Donor</a>
                 <a type="button" class="btn btn-outline-primary me-2" href="{% url 'search_blood_bank' %}"><i
                         class="fa fa-search"></i> Search Blood Bank</a>
                 {#                <div class="dropdown">#}
-                <a type="button" class="btn btn-outline-primary me-2" href="{% url 'chatbox_index' %}"><i class="fa-regular fa-comments"></i> </a>
-                   <div class="dropdown">
+                 {% endif %}
+                <a type="button" class="btn btn-outline-primary me-2" href="{% url 'chatbox_index' %}"><i
+                        class="fa-regular fa-comments"></i> </a>
+                <div class="dropdown">
                     <button class="btn btn-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      <i class="fa-solid fa-bell"></i>
+                        <i class="fa-solid fa-bell"></i>
                     </button>
 
                     <ul class="dropdown-menu notifications" role="menu" aria-labelledby="dLabel">
@@ -69,9 +78,14 @@
                     {{ request.user.first_name.0|upper }}
                 </button>
 
+
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
+                    <li><a class="dropdown-item" href="{% url 'post_list' %}">Spacial Portal</a></li>
+                    
+                     {% if request.user.account_type == 'blood_bank' %} 
                     <li><a class="dropdown-item" href="#">Settings</a></li>
+                         {% endif %}
                     <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
                 </ul>
                 {#                </div>#}
@@ -82,13 +96,106 @@
                 <a type="button" class="btn btn-primary" href="{% url 'register' %}">Sign-up</a>
             </div>
         {% endif %}
-
     </div>
+    <input type="hidden" name="csrfmiddlewaretokenLocation" value="{{ csrf_token }}" hidden="hidden">
 </header>
 {% block content %} {% endblock content %}
 <script src="{% static "js/jquery-3.4.1.min.js" %}"></script>
 <script src="{% static "js/bootstrap.min.js" %}"></script>
 <script src="{% static "js/notifications.js" %}"></script>
+
+{% if request.user.account_type == 'user' %}
+    <script>
+        $(document).ready(function () {
+            // Check if the browser supports Geolocation
+            if ('geolocation' in navigator) {
+                navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+            } else {
+                alert('Geolocation is not supported in your browser');
+            }
+
+            function successCallback(position) {
+                // Get latitude and longitude from the position object
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                // Send the location to the server using jQuery AJAX
+                sendLocationToServer(latitude, longitude);
+            }
+
+            function errorCallback(error) {
+                // Handle errors if any
+                console.error('Error getting location:', error.message);
+            }
+
+            function sendLocationToServer(latitude, longitude) {
+                // Use jQuery AJAX to send the location to your server
+                csrf_token = $('input[name=csrfmiddlewaretokenLocation]').val()
+                var url = 'http://localhost:8002/locations/set_user_location'
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRFToken': csrf_token
+                    }
+                });
+
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: {
+                        latitude: latitude,
+                        longitude: longitude,
+                    },
+                    success: function (data) {
+                        console.log('Server response:', data);
+                    },
+                    error: function (error) {
+                        console.error('Error sending location to server:', error);
+                    }
+                });
+            }
+
+
+            $('#nearByDonor').click(function () {
+                // Check if the browser supports Geolocation
+                if ('geolocation' in navigator) {
+                    navigator.geolocation.getCurrentPosition(nearBySuccessCallback, errorCallback);
+                } else {
+                    alert('Geolocation is not supported in your browser');
+                }
+            });
+
+            function nearBySuccessCallback(position) {
+                // Get latitude and longitude from the position object
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                // Display the location or send it to the server
+                window.location.href = 'http://localhost:8002/dashboard/near_by_donors?latitude=' + latitude + '&longitude=' + longitude;
+            }
+
+            $('#nearByBloodBank').click(function () {
+                // Check if the browser supports Geolocation
+                if ('geolocation' in navigator) {
+                    navigator.geolocation.getCurrentPosition(nearByBloodBankSuccessCallback, errorCallback);
+                } else {
+                    alert('Geolocation is not supported in your browser');
+                }
+            });
+
+            function nearByBloodBankSuccessCallback(position) {
+                // Get latitude and longitude from the position object
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                // Display the location or send it to the server
+                window.location.href = 'http://localhost:8002/dashboard/near_by_blood_banks?latitude=' + latitude + '&longitude=' + longitude;
+            }
+        });
+
+
+    </script>
+
+{% endif %}
+
+
 
 
 {% block script %}
