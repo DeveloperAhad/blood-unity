@@ -1,0 +1,63 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+    <div class="container">
+    <div class="container mt-3">
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-8">
+                <h3 class="mb-4">API key for outside mange the blood bank</h3>
+                <div class="input-group">
+                    <input type="password" id="api_input" class="form-control" value="{{ api_key }}"
+                           aria-label="Text input with segmented dropdown button">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-outline-info" id="show_api"><i
+                                class="fa-regular fa-eye"></i></button>
+                    </div>
+
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="input-group-append pt-2">
+                        <button type="submit" class="btn btn-primary">Generate New API Key</button>
+                    </div>
+                </form>
+
+                <h4 class="mt-5">API Documentation</h4>
+                <code class="highlighter-rouge">http://localhost:8002/api/blood_bank_update_blood_groups</code>
+                <p>In header use the token <code class="highlighter-rouge">Authorization - { API_KEY }</code></p>
+                <p>Request Body</p>
+                <code class="highlighter-rouge">
+                    { <br>
+                        "blood_group_a_positive": 5,  <br>
+                        "blood_group_a_negative": 3,  <br>
+                        "blood_group_b_positive": 8, <br>
+                        "blood_group_b_negative": 2, <br>
+                        "blood_group_o_positive": 12, <br>
+                        "blood_group_o_negative": 6, <br>
+                        "blood_group_ab_positive": 4, <br>
+                        "blood_group_ab_negative": 1 <br>
+                    }
+                </code>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+
+    <script>
+        $(document).ready(function () {
+            $('#show_api').click(function () {
+                var x = document.getElementById("api_input");
+                if (x.type === "password") {
+                    x.type = "text";
+                    $(this).html('<i class="fa-regular fa-eye-slash"></i>')
+                } else {
+                    x.type = "password";
+                    $(this).html('<i class="fa-regular fa-eye"></i>')
+                }
+            });
+        });
+    </script>
+
+{% endblock %}

@@ -1,3 +1,5 @@
+import uuid
+
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.contrib.gis.db import models as geoModels
@@ -26,6 +28,18 @@ class BloodBank(models.Model):
 
     lat = models.FloatField(blank=True, null=True)
     lng = models.FloatField(blank=True, null=True)
+
+    token = models.CharField(max_length=100, null=True, blank=True)
+
+
+    def save(self, *args, **kwargs):
+        if self.token is None:
+            self.token = str(uuid.uuid4())
+        super().save(*args, **kwargs)
+
+    def generate_token(self):
+        self.token = str(uuid.uuid4())
+        self.save()
 
     @property
     def get_address(self):

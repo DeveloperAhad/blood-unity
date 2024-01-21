@@ -1,0 +1,45 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+    <div class="container mt-3">
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-8">
+                {% if post.post_type == 'blood_request' %}
+                    <!-- Blood Request Post Item -->
+                    <div class="card mb-3 post blood_request">
+                        <div class="card-body">
+                            <p class="date">{{ post.created_at }}</p>
+                            <h5 class="card-title">{{ post.title }}</h5>
+                            <p class="card-text">{{ post.content }}</p>
+                            <p class="card-text">Blood Group: {{ post.blood_group }}</p>
+                        </div>
+                    </div>
+                {% elif post.post_type == 'blood_donation' %}
+                    <!-- Blood Donation Post Item -->
+                    <div class="card mb-3  post blood_donate">
+                        <div class="card-body">
+                            <p class="date">{{ post.created_at }}</p>
+                            <h5 class="card-title">{{ post.title }}</h5>
+                            <p class="card-text">{{ post.content }}</p>
+                            <p class="card-text">Blood Group: {{ post.blood_group }}</p>
+                        </div>
+                    </div>
+                {% elif post.post_type == 'news' %}
+                    <!-- News Post Item -->
+                    <div class="card mb-3 post">
+                        <div class="card-body">
+                            <p class="date">{{ post.created_at }}</p>
+                            {% if post.image %}
+                                <img class="mb-2" src={{ post.image.url }}>
+                            {% endif %}
+                            <h5 class="card-title">{{ post.title }}</h5>
+                            <p class="card-text">{{ post.content }}</p>
+                            <p class="card-text">
+                                Location: {{ post.division }}, {{ post.district }}, {{ post.upazila }}, {{ post.union }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

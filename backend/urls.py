@@ -18,6 +18,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from blood_banks.views import update_blood_groups
 from dashboard.views import index
 
 urlpatterns = [
@@ -29,7 +30,8 @@ urlpatterns = [
     path('blood_banks/', include('blood_banks.urls')),
     path('chats/', include('chatbox.urls')),
     path('notifications/', include('notification.urls')),
-    path('', index, name='index')
+    path('', index, name='index'),
+    path('api/blood_bank_update_blood_groups', update_blood_groups, name='blood_bank_update_blood_groups'),
 ]
 
 if settings.DEBUG:

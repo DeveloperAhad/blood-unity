@@ -84,7 +84,7 @@
                     <li><a class="dropdown-item" href="{% url 'post_list' %}">Spacial Portal</a></li>
                     
                      {% if request.user.account_type == 'blood_bank' %} 
-                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><a class="dropdown-item" href="{% url 'blood_bank_settings' %}">Settings</a></li>
                          {% endif %}
                     <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
                 </ul>

@@ -31,7 +31,7 @@ $(document).ready(function () {
             // Handle the successful response here
             response?.notifications.map((notification) => {
                 notificationWrapper.prepend(`
-                       <a class="content" href="#">
+                       <a class="content" href="http://localhost:8002/dashboard/portal/${notification.post_id}/">
                                 <div class="notification-item">
                                     <h4 class="item-title">${notification.title} · ${notification.date}</h4>
                                     <p class="item-info">${notification.content}</p>
@@ -54,7 +54,7 @@ $(document).ready(function () {
         console.log(data)
         if (data.type == "send_notification") {
             notificationWrapper.prepend(`
-                       <a class="content" href="#">
+                       <a class="content" href="http://localhost:8002/dashboard/portal/${data.post_id}">
                                 <div class="notification-item">
                                     <h4 class="item-title">${data.title} · ${data.date}</h4>
                                     <p class="item-info">${data.content}</p>
