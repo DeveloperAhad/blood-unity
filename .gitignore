@@ -24,4 +24,4 @@ logs
 db.sqlite3
 media
 requirements.txt
-uploads
+/uploads
