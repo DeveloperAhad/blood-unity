@@ -6,7 +6,7 @@ Blood-Unity is a web-based platform designed to connect blood donors, recipients
 
 ```bash
 # For Development Mode | serve at 8002
-$  docker-compose -f docker-compose.yml up --build
+$  docker-compose -f docker-compose.dev.yml up --build
 
 ```
 
